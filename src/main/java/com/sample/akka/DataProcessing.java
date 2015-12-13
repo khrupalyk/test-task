@@ -30,10 +30,10 @@ public class DataProcessing extends UntypedActor {
             String fileLocation = startProcess.getFileLocation();
 
             int workerCount = Runtime.getRuntime().availableProcessors();
-            ActorRef workers = getContext().system().actorOf(Props.create(FileWorker.class, ProcessingContext.getInstance()).withRouter(new RoundRobinPool(workerCount * 2)));
+            ActorRef workers = getContext().system().actorOf(Props.create(FileWorker.class,context).withRouter(new RoundRobinPool(workerCount * 2)));
 
             long totalChunks = totalMessages(fileLocation) + 1;
-            ProcessingContext.getInstance().setLinesNumber(fileLength(fileLocation) / context.getOneBlockSize() + 1);
+            context.setLinesNumber(fileLength(fileLocation) / context.getOneBlockSize() + 1);
             System.out.println("Total mess: " + totalChunks);
             for (int i = 1; i <= totalChunks; i++) {
                 workers.tell(new DataMessage(fileLocation, i, totalChunks), getSelf());

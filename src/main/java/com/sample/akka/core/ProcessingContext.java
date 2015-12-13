@@ -3,15 +3,18 @@ package com.sample.akka.core;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.sample.akka.DataResolver;
+import com.sample.akka.DataWriter;
 
 /**
  * Created by root on 12/11/15.
  */
 public class ProcessingContext {
 
-    private final static ActorRef diagnostics = Akka.system.actorOf(Props.create(DataResolver.class));
+    private final static ActorRef dataResolver = Akka.system.actorOf(Props.create(DataResolver.class, ProcessingHolder.HOLDER_INSTANCE));
+    private final static ActorRef dataWriter = Akka.system.actorOf(Props.create(DataWriter.class));
     private final static int defaultBlocksSize = 44*10;
     private final static int oneBlockSize = 44;
+    private final static String resultFileName = "src/main/resources/result.txt";
     private static long linesNumber = -1;
 
 
@@ -23,8 +26,8 @@ public class ProcessingContext {
         return ProcessingHolder.HOLDER_INSTANCE;
     }
 
-    public  ActorRef getDiagnostics() {
-        return diagnostics;
+    public  ActorRef getDataResolver() {
+        return dataResolver;
     }
 
     public int getDefaultBlocksSize() {
@@ -41,5 +44,13 @@ public class ProcessingContext {
 
     public int getOneBlockSize() {
         return oneBlockSize;
+    }
+
+    public String getResultFileName() {
+        return resultFileName;
+    }
+
+    public ActorRef getDataWriter() {
+        return dataWriter;
     }
 }

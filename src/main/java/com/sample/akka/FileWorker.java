@@ -27,7 +27,7 @@ public class FileWorker extends UntypedActor {
         if(message instanceof DataMessage) {
             DataMessage dataMessage = (DataMessage)message;
             String[] readLines = readLines(dataMessage.getBigDataFilePath(), dataMessage.getChunkIndex());
-            context.getDiagnostics().tell(new ResultMessage(readLines, dataMessage.getChunkIndex(), dataMessage.getTotalChunks()), getSelf());
+            context.getDataResolver().tell(new ResultMessage(readLines, dataMessage.getChunkIndex(), dataMessage.getTotalChunks()), getSelf());
         }
 
     }

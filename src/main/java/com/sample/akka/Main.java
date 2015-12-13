@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class Main {
 
-    static String bigdataFilePath = "src/main/resources/bigdata.txt";
+    static String bigdataFilePath = "src/main/resources/data.txt";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
